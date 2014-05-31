@@ -1,0 +1,6 @@
+amq-fanout
+==========
+
+A simple message forwarder and demultiplexer for ActiveMQ
+
+[![Build Status](https://travis-ci.org/dbraga/amq-fanout.svg?branch=master)](https://travis-ci.org/dbraga/amq-fanout)
