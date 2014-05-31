@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="placeholderConfig"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:application.properties</value>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="activeMQFactory" class="org.apache.activemq.pool.PooledConnectionFactory" destroy-method="stop">
+        <property name="connectionFactory">
+            <bean class="org.apache.activemq.ActiveMQConnectionFactory">
+                <property name="brokerURL">
+                    <value>tcp://${activemq.broker.host}:${activemq.broker.port}</value>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="fanout" class="org.dbraga.utilities.Fanout" init-method="init">
+        <property name="activeMQConnectionFactory" ref="activeMQFactory"/>
+        <property name="outputQueues" value="${fanout.queues.output}"/>
+        <property name="outputTopics" value="${fanout.topics.output}"/>
+    </bean>
+
+    <bean id="messageReceiver" class="org.dbraga.utilities.Receiver" init-method="init">
+        <property name="activeMQConnectionFactory" ref="activeMQFactory"/>
+        <property name="input" value="${fanout.input}"/>
+        <property name="fanout" ref="fanout"/>
+
+    </bean>
+
+</beans>
