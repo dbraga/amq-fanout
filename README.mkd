@@ -1,6 +1,28 @@
-amq-fanout
+****ActiveMQ-Fanout****
 ==========
 
-A simple message forwarder and demultiplexer for ActiveMQ
+A simple message forwarder and demultiplexer for ActiveMQ 
 
 [![Build Status](https://travis-ci.org/dbraga/amq-fanout.svg?branch=master)](https://travis-ci.org/dbraga/amq-fanout)
+
+## How to install/run
+Build the project with maven
+> mvn clean install
+
+Place the war file inside a container (e.g Jetty/Tomcat)
+
+## Configuration
+Basic settings can be tuned in the application.properties
+
+### URI and openwire port for the activeMQ broker
+activemq.broker.host = fakebroker  
+
+activemq.broker.port = 61616
+
+### Fanout input queue
+fanout.input = test
+
+### Fanout output queue and topics, comma separated
+fanout.queues.output = test2
+
+fanout.topics.output = test4, test5
