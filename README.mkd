@@ -1,4 +1,4 @@
-****ActiveMQ-Fanout****
+ActiveMQ-Fanout
 ==========
 
 A simple message forwarder and demultiplexer for ActiveMQ 
