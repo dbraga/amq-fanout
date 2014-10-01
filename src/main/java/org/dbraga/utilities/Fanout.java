@@ -37,10 +37,10 @@ public class Fanout {
     producers = new ArrayList<MessageProducer>();
 
     for (String queue: queuesOutput.split(",")){
-      if ("".equals(queue)) producers.add(session.createProducer(session.createQueue(queue)));
+      if (!"".equals(queue)) producers.add(session.createProducer(session.createQueue(queue)));
     }
     for (String topic: topicsOutput.split(",")){
-      if ("".equals(topic)) producers.add(session.createProducer(session.createTopic(topic)));
+      if (!"".equals(topic)) producers.add(session.createProducer(session.createTopic(topic)));
     }
   }
 
@@ -70,6 +70,7 @@ public class Fanout {
 
   public void distribute(Message msg) throws JMSException {
     for (MessageProducer producer: producers){
+      producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
       LOG.info("Forwarding message(" + msg.getJMSMessageID() + ") to destination: " + producer.getDestination().toString());
       producer.send(msg);
     }

@@ -2,13 +2,14 @@ package org.dbraga.utilities;
 
 import org.apache.activemq.pool.PooledConnectionFactory;
 import org.apache.log4j.Logger;
+import org.springframework.util.ErrorHandler;
 
 import javax.jms.*;
 
 /**
  * User: dbraga - Date: 5/30/14
  */
-public class Receiver implements MessageListener {
+public class Receiver implements MessageListener, ErrorHandler {
 
   private PooledConnectionFactory activeMQConnectionFactory;
   private Connection connection;
@@ -19,12 +20,6 @@ public class Receiver implements MessageListener {
 
 
   public void init() throws JMSException {
-    this.connection = activeMQConnectionFactory.createConnection();
-    connection.start();
-    this.session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-    Destination inputDestination = this.session.createQueue(input);
-    MessageConsumer consumer = this.session.createConsumer(inputDestination);
-    consumer.setMessageListener(this);
   }
 
   @Override
@@ -58,5 +53,10 @@ public class Receiver implements MessageListener {
 
   public Fanout getFanout() {
     return fanout;
+  }
+
+  @Override
+  public void handleError(Throwable throwable) {
+
   }
 }
