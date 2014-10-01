@@ -6,7 +6,7 @@
     <packaging>war</packaging>
     <groupId>org.dbraga.utilities</groupId>
     <artifactId>amq-fanout</artifactId>
-    <version>1.0</version>
+    <version>1.1</version>
 
 
     <properties>
